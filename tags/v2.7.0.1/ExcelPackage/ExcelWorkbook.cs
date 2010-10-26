@@ -663,12 +663,12 @@ namespace OfficeOpenXml
             }
         }
         /// <summary>
-        /// Is their any names in the workbook or in the sheets.
+        /// Is there any names in the workbook or in the sheets.
         /// </summary>
-        /// <returns>?</returns>
+        /// <returns>true if name exists</returns>
         private bool ExistsNames()
         {
-            if (_names.Count > 0)
+            if (_names.Count == 0)
             {
                 foreach (ExcelWorksheet ws in Worksheets)
                 {
