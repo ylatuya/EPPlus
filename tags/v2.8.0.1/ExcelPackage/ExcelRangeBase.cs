@@ -575,7 +575,7 @@ namespace OfficeOpenXml
             get
             {
                 ulong cellID= GetCellID(_worksheet.SheetID, _fromRow, _fromCol);
-                if(_worksheet._comments!=null && _worksheet._comments._comments.ContainsKey(cellID))
+                if(_worksheet.Comments._comments.ContainsKey(cellID))
                 {
                     return _worksheet._comments._comments[cellID] as ExcelComment;
                 }
