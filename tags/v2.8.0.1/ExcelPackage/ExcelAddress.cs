@@ -28,6 +28,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace OfficeOpenXml
 {
@@ -37,7 +38,7 @@ namespace OfficeOpenXml
     /// <remarks>Examples of addresses are "A1" "B1:C2" "A:A" "1:1" "A1:E2,G3:G5" </remarks>
     public class ExcelAddressBase : ExcelCellBase
     {
-        internal protected int _fromRow=-1, _toRow, _fromCol, _toCol;
+        internal protected int _fromRow = -1, _toRow, _fromCol, _toCol;
         internal protected string _ws;
         internal protected string _address;
         internal enum eAddressCollition
@@ -60,7 +61,7 @@ namespace OfficeOpenXml
             Validate();
 
             _address = GetAddress(_fromRow, _fromCol, _toRow, _toCol);
-//            GetRowColFromAddress(_address, out _fromRow, out _fromCol, out _toRow, out  _toCol);
+            //            GetRowColFromAddress(_address, out _fromRow, out _fromCol, out _toRow, out  _toCol);
         }
         /// <summary>
         /// Creates an Address object
@@ -75,7 +76,7 @@ namespace OfficeOpenXml
         protected internal void SetAddress(string address)
         {
             _address = address;
-            if(address.IndexOfAny(new char[] {',','!'}) > -1)
+            if (address.IndexOfAny(new char[] { ',', '!' }) > -1)
             {
                 //Advanced address. Including Sheet or multi
                 ExtractAddress(_address);
@@ -180,24 +181,24 @@ namespace OfficeOpenXml
 
         private void ExtractAddress(string fullAddress)
         {
-            string first="", second="";
-            bool isText=false, hasSheet=false;
+            string first = "", second = "";
+            bool isText = false, hasSheet = false;
             if (fullAddress == "#REF!")
             {
-                SetAddress(ref fullAddress, ref second, ref hasSheet );
+                SetAddress(ref fullAddress, ref second, ref hasSheet);
                 return;
             }
             foreach (char c in fullAddress)
             {
-                if(c=='\'')
+                if (c == '\'')
                 {
-                    isText=!isText;
+                    isText = !isText;
                 }
                 else
                 {
-                    if(c=='!' && !isText && !first.EndsWith("#REF") && !second.EndsWith("#REF"))
+                    if (c == '!' && !isText && !first.EndsWith("#REF") && !second.EndsWith("#REF"))
                     {
-                        hasSheet=true;
+                        hasSheet = true;
                     }
                     else if (c == ',' && !isText)
                     {
@@ -273,7 +274,93 @@ namespace OfficeOpenXml
                 _addresses.Add(new ExcelAddress(_ws, address));
             }
         }
-}
+        internal enum AddressType
+        {
+            Invalid,
+            InternalAddress,
+            ExternalAddress,
+            InternalName,
+            ExternalName
+        }
+        internal static AddressType IsValid(string Address)
+        {
+            string ws = "";
+            if (Address.IndexOfAny(new char[] { '(', ')', '+', '-', '*', '/', '.', '=', '^', '&', '%', '\"','[',']' }) > -1)
+            {
+                return AddressType.Invalid;
+            }
+            if (Address.IndexOf('!') > 0)
+            {
+                string[] split = Address.Split('!');
+                if (split.Length == 2)
+                {
+                    ws = split[0];
+                    Address = split[1];
+                }
+                else
+                {
+                    if(split.Length==3 && split[1]=="#REF")
+                    {
+                        return AddressType.InternalAddress;
+                    }
+                    else
+                    {
+                    }
+                    return AddressType.Invalid;
+                }
+            }
+            int row, col;
+            if (ExcelAddressBase.GetRowCol(Address, out row, out col, false))
+            {
+                if (row > 0 && col > 0 && row <= ExcelPackage.MaxRows && col <= ExcelPackage.MaxColumns)
+                {
+                    if (ws.StartsWith("[") && ws.IndexOf("]") > 1)
+                    {
+                        return AddressType.ExternalAddress;
+                    }
+                    else
+                    {
+                        return AddressType.InternalAddress;
+                    }
+                }
+                else
+                {
+                    return AddressType.Invalid;
+                }
+            }
+            else
+            {
+                if (IsValidName(Address))
+                {
+                    if (ws.StartsWith("[") && ws.IndexOf("]") > 1)
+                    {
+                        return AddressType.ExternalName;
+                    }
+                    else
+                    {
+                        return AddressType.InternalName;
+                    }
+                }
+                else
+                {
+                    return AddressType.Invalid;
+                }
+            }
+
+        }
+
+        private static bool IsValidName(string address)
+        {
+            if (Regex.IsMatch(address, "[^0-9./*-+,½!\"@#£%&/{}()\\[\\]=?`^~':;<>|][^/*-+,½!\"@#£%&/{}()\\[\\]=?`^~':;<>|]*"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
     /// <summary>
     /// Range address with the address property readonly
     /// </summary>

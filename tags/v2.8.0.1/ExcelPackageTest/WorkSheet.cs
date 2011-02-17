@@ -669,11 +669,18 @@ namespace ExcelPackageTest
             tbl.HeaderRowCellStyle = "RedStyle";
         }
         [TestMethod]
+        public void LoadNames()
+        {
+            var pck = new ExcelPackage(new FileInfo("c:\\temp\\nametest_new.xlsx"));
+            var ws = pck.Workbook.Worksheets[1];
+            
+        }
+        [TestMethod]
         public void Merge()
         {
             var ws = _pck.Workbook.Worksheets.Add("Merge");
-            ws.Cells["A1:A4"].Merge=true;
-            ws.Cells["C1:C4,C8:C12"].Merge=true;
+            ws.Cells["A1:A4"].Merge = true;
+            ws.Cells["C1:C4,C8:C12"].Merge = true;
             ws.Cells["D13:E18,G5,U32:U45"].Merge = true;
         }
 

@@ -51,14 +51,6 @@ namespace OfficeOpenXml
         {
             Name = name;
             _sheet = nameSheet;
-            if (nameSheet != null)
-            {
-                LocalSheetId = nameSheet.PositionID-1;
-            }
-            else
-            {
-                LocalSheetId = -1;
-            }
         }
         /// <summary>
         /// Name of the range
@@ -73,8 +65,17 @@ namespace OfficeOpenXml
         /// </summary>
         public int LocalSheetId
         {
-            get;
-            set;
+            get
+            {
+                if (_sheet == null)
+                {
+                    return -1;
+                }
+                else
+                {
+                    return _sheet.PositionID;
+                }
+            }
         }
         /// <summary>
         /// Is the name hidden

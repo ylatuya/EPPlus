@@ -153,24 +153,27 @@ namespace OfficeOpenXml
                     {
                         localSheetID = -1;
                     }
-                    ExcelAddress addr = new ExcelAddress(fullAddress);
-                    ExcelNamedRange namedRange;
-                    if (localSheetID > -1)
+                    if (ExcelAddress.IsValid(fullAddress)==ExcelAddressBase.AddressType.InternalAddress)
                     {
-                        if (string.IsNullOrEmpty(addr._ws))
+                        ExcelAddress addr = new ExcelAddress(fullAddress);
+                        ExcelNamedRange namedRange;
+                        if (localSheetID > -1)
                         {
-                            namedRange = Worksheets[localSheetID + 1].Names.Add(elem.GetAttribute("name"), new ExcelRangeBase(Worksheets[localSheetID + 1], fullAddress));
+                            if (string.IsNullOrEmpty(addr._ws))
+                            {
+                                namedRange = Worksheets[localSheetID + 1].Names.Add(elem.GetAttribute("name"), new ExcelRangeBase(Worksheets[localSheetID + 1], fullAddress));
+                            }
+                            else
+                            {
+                                namedRange = Worksheets[localSheetID + 1].Names.Add(elem.GetAttribute("name"), new ExcelRangeBase(Worksheets[addr._ws], fullAddress));
+                            }
                         }
                         else
                         {
-                            namedRange = Worksheets[localSheetID + 1].Names.Add(elem.GetAttribute("name"), new ExcelRangeBase(Worksheets[addr._ws], fullAddress));
+                            namedRange = _names.Add(elem.GetAttribute("name"), new ExcelRangeBase(Worksheets[addr._ws], fullAddress));
                         }
+                        if (elem.GetAttribute("hidden") == "1") namedRange.IsNameHidden = true;
                     }
-                    else
-                    {
-                        namedRange = _names.Add(elem.GetAttribute("name"), new ExcelRangeBase(Worksheets[addr._ws], fullAddress));
-                    }
-                    if (elem.GetAttribute("hidden") == "1") namedRange.IsNameHidden = true;
                 }
             }
         }
