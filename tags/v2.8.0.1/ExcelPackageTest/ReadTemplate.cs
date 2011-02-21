@@ -41,8 +41,22 @@ namespace ExcelPackageTest
             {
                 var ws = pck.Workbook.Worksheets["Perf"];
                 Assert.AreEqual(ws.Cells["H6"].Formula, "B5+B6");
+            
+               var wsHF=pck.Workbook.Worksheets["Header footer"];
+               Assert.AreEqual(wsHF.HeaderFooter.firstFooter.LeftAlignedText, "First Left");
+               Assert.AreEqual(wsHF.HeaderFooter.firstFooter.RightAlignedText, "First Right");
+
+                Assert.AreEqual(wsHF.HeaderFooter.evenFooter.CenteredText, "even Centered");
+
+               Assert.AreEqual(wsHF.HeaderFooter.oddFooter.LeftAlignedText, "odd Left");
+               Assert.AreEqual(wsHF.HeaderFooter.oddFooter.CenteredText,"odd Centered");
+               Assert.AreEqual(wsHF.HeaderFooter.oddFooter.RightAlignedText, "odd Right");
+
+                
                 pck.SaveAs(new FileInfo(@"Test\Worksheet2.xlsx"));
+            
             }
+
             instream.Close();
         }
         [TestMethod]

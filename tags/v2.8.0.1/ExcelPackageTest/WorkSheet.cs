@@ -583,7 +583,6 @@ namespace ExcelPackageTest
             //Top bottom overwrite
             ws.Cells["B30:E42"].Formula = "B1+C1+$D$1";
             ws.Cells["A32:H33"].Formula = "G2+E1";
-
             ws.Cells["A50:A59"].CreateArrayFormula("C50+D50");
 
             ws.Cells["A15"].Value = "Värde";
@@ -598,7 +597,8 @@ namespace ExcelPackageTest
         {
             var ws = _pck.Workbook.Worksheets.Add("Names");
             ws.Names.Add("RefError", ws.Cells["#REF!"]);
-
+            ws.Names.Add("OtherWorksheet", _pck.Workbook.Worksheets[1].Cells["A1"]);
+            
             ws.Cells["A1"].Value = "Test";
             ws.Cells["A1"].Style.Font.Size = 8.5F;
         }
@@ -636,6 +636,28 @@ namespace ExcelPackageTest
             dt.Rows.Add(dr);
 
             ws.Cells["A1"].LoadFromDataTable(dt,true,OfficeOpenXml.Table.TableStyles.Medium5);
+        }
+        [TestMethod]
+        public void HeadingFooter()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Header footer");
+            ws.HeaderFooter.firstFooter.LeftAlignedText = "First Left";
+            ws.HeaderFooter.firstFooter.RightAlignedText = "First Right";
+
+            ws.HeaderFooter.evenFooter.CenteredText = "even Centered";
+
+            ws.HeaderFooter.oddFooter.LeftAlignedText = "odd Left";
+            ws.HeaderFooter.oddFooter.CenteredText = "odd Centered";
+            ws.HeaderFooter.oddFooter.RightAlignedText = "odd Right";
+
+            ws.HeaderFooter.firstHeader.LeftAlignedText = "First Left";
+            ws.HeaderFooter.firstHeader.RightAlignedText = "First Right";
+
+            ws.HeaderFooter.evenHeader.CenteredText = "even Centered";
+
+            ws.HeaderFooter.oddHeader.LeftAlignedText = "odd Left";
+            ws.HeaderFooter.oddHeader.CenteredText = "odd Centered";
+            ws.HeaderFooter.oddHeader.RightAlignedText = "odd Right";
         }
         [TestMethod]
         public void LoadText()

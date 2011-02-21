@@ -280,7 +280,6 @@ namespace OfficeOpenXml
                     var encrHandler = new EncryptedPackageHandler();
                     _stream = encrHandler.DecryptPackage(template, Encryption);
                     encrHandler = null;
-                    //throw (new NotImplementedException("No support for Encrypted packages in this version"));
                 }
                 else
                 {
@@ -699,7 +698,7 @@ namespace OfficeOpenXml
         ///  ExcelPackage package=new ExcelPackage();
         ///  /**** ... Create the document ****/
         ///  Byte[] bin = package.GetAsByteArray();
-        ///  Response.ContentType = "Application/vnd.ms-Excel";
+        ///  Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
         ///  Response.AddHeader("content-disposition", "attachment;  filename=TheFile.xlsx");
 		///  Response.BinaryWrite(bin);
         /// </code>
@@ -719,7 +718,7 @@ namespace OfficeOpenXml
         ///  ExcelPackage package=new ExcelPackage();
         ///  /**** ... Create the document ****/
         ///  Byte[] bin = package.GetAsByteArray();
-        ///  Response.ContentType = "Application/vnd.ms-Excel";
+        ///  Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
         ///  Response.AddHeader("content-disposition", "attachment;  filename=TheFile.xlsx");
         ///  Response.BinaryWrite(bin);
         /// </code>

@@ -38,7 +38,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("EPPlus")]
-[assembly: AssemblyDescription("Allows Excel 2007 files to be created on the server. See epplus.codeplex.com")]
+[assembly: AssemblyDescription("Allows Excel 2007/2010 files to be created on the server. See epplus.codeplex.com")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("EPPlus")]
@@ -59,5 +59,5 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("2.8.0.1")]
-[assembly: AssemblyFileVersion("2.8.0.1")]
+[assembly: AssemblyVersion("2.8.0.2")]
+[assembly: AssemblyFileVersion("2.8.0.2")]

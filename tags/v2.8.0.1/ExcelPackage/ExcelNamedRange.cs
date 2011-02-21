@@ -73,7 +73,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    return _sheet.PositionID;
+                    return _sheet.PositionID-1;
                 }
             }
         }
