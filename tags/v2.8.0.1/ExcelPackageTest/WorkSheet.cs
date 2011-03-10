@@ -102,6 +102,11 @@ namespace ExcelPackageTest
             ws.Workbook.Names["TestName"].Offset(1, 0).Value = "Offset test 1";
             ws.Workbook.Names["TestName"].Offset(2,-1, 2, 2).Value = "Offset test 2";
 
+            foreach (var cell in ws.Workbook.Names["TestName"])
+            {
+                Assert.IsNotNull(cell);
+            }
+
             //Test vertical align
             ws.Cells["E19"].Value = "Subscript";
             ws.Cells["E19"].Style.Font.VerticalAlign = ExcelVerticalAlignmentFont.Subscript;
@@ -598,9 +603,24 @@ namespace ExcelPackageTest
             var ws = _pck.Workbook.Worksheets.Add("Names");
             ws.Names.Add("RefError", ws.Cells["#REF!"]);
             ws.Names.Add("OtherWorksheet", _pck.Workbook.Worksheets[1].Cells["A1"]);
+
+            ws.Cells["B1"].Value = new DateTime(2010, 1, 1);
+            ws.Cells["C1"].Value = new DateTime(2010, 1, 2);
+
+            ws.Cells["B2"].Value = 33;
+            ws.Cells["C2"].Value = 74;
+
+            ws.Cells["B3"].Value = "Test2";
+            ws.Cells["C3"].Value = "Test3";
             
+            _pck.Workbook.Names.Add("Data", ws.Cells["B1:C3"]);
+
+            foreach(var cell in _pck.Workbook.Names["Data"])
+            {
+                Assert.IsNotNull(cell);
+            }
             ws.Cells["A1"].Value = "Test";
-            ws.Cells["A1"].Style.Font.Size = 8.5F;
+            ws.Cells["A1"].Style.Font.Size = 8.5F;            
         }
         [TestMethod]
         public void LoadDataTable()

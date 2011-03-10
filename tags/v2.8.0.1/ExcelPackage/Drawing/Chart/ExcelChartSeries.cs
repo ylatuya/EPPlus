@@ -204,7 +204,10 @@ namespace OfficeOpenXml.Drawing.Chart
        #region "Xml init Functions"
        private string AddMarker(eChartType chartType)
        {
-           if (chartType == eChartType.XYScatterLines ||
+           if (chartType == eChartType.Line ||
+               chartType == eChartType.LineStacked ||
+               chartType == eChartType.LineStacked100 ||
+               chartType == eChartType.XYScatterLines ||
                chartType == eChartType.XYScatterSmooth ||
                chartType == eChartType.XYScatterLinesNoMarkers ||
                 chartType == eChartType.XYScatterSmoothNoMarkers)

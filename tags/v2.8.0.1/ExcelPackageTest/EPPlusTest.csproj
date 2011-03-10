@@ -69,6 +69,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bugs.cs" />
     <Compile Include="Encrypt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DrawingTest.cs" />

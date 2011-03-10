@@ -52,6 +52,10 @@ namespace ExcelPackageTest
                Assert.AreEqual(wsHF.HeaderFooter.oddFooter.CenteredText,"odd Centered");
                Assert.AreEqual(wsHF.HeaderFooter.oddFooter.RightAlignedText, "odd Right");
 
+               foreach (var cell in pck.Workbook.Names["Data"])
+               {
+                   Assert.IsNotNull(cell);
+               }
                 
                 pck.SaveAs(new FileInfo(@"Test\Worksheet2.xlsx"));
             
