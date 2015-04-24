@@ -1,4 +1,0 @@
-/home/andoni/Descargas/monoworkarounds/EPPlus/bin/Debug/EPPlus.dll.mdb
-/home/andoni/Descargas/monoworkarounds/EPPlus/bin/Debug/EPPlus.dll
-/home/andoni/Descargas/monoworkarounds/EPPlus/obj/Debug/EPPlus.dll
-/home/andoni/Descargas/monoworkarounds/EPPlus/obj/Debug/EPPlus.dll.mdb
